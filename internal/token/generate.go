@@ -2,9 +2,11 @@ package token
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/ip75/rutubeuploader/internal/log"
 	"github.com/ip75/rutubeuploader/internal/rutube"
@@ -36,19 +38,33 @@ func (t *Token) Generate(user, pass string, regenerate bool) error {
 
 	resp, err := http.DefaultClient.Do(r)
 	if err != nil {
-		log.Logger.Error().Msgf("do request token: %s", err)
 		return fmt.Errorf("do request token: %w", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Logger.Error().Msgf("error when generate token: %s", resp.Status)
-		return fmt.Errorf("error when generate token: %s", resp.Status)
+		return fmt.Errorf("error when generate token: %s: %w", resp.Status, rutube.ParseErr(resp.Body))
 	}
 
+	json.NewDecoder(resp.Body).Decode(t)
 	return nil
 }
 
 func (t *Token) SaveToken(path string) error {
 	log.Logger.Info().Msgf("save token to %s...", path)
+
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("open/create token file: %w", err)
+	}
+	defer f.Close()
+
+	d, err := json.Marshal(t)
+	if err != nil {
+		return fmt.Errorf("marshal token: %w", err)
+	}
+	if _, err := f.Write(d); err != nil {
+		return fmt.Errorf("save token: %w", err)
+	}
+
 	return nil
 }

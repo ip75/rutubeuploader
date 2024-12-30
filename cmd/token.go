@@ -45,5 +45,5 @@ func init() {
 	tokenCmd.MarkFlagRequired("user")
 	tokenCmd.Flags().StringVarP(&password, "password", "p", "", "password to access your account on rutube.ru")
 	tokenCmd.MarkFlagRequired("password")
-	tokenCmd.Flags().BoolVarP(&regenate, "regenate", "r", false, "regenerate token to access rutube.ru API")
+	tokenCmd.Flags().BoolVarP(&regenate, "regenerate", "r", false, "regenerate token to access rutube.ru API")
 }
