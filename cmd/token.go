@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -10,7 +7,7 @@ import (
 )
 
 const (
-	tokenFile = "token.json"
+	defaultTokenFile = "token.json"
 )
 
 var (
@@ -28,7 +25,7 @@ For example:
 				log.Logger.Err(err).Msg("token: generate")
 				return
 			}
-			if err := t.SaveToken(tokenFile); err != nil {
+			if err := t.SaveToken(defaultTokenFile); err != nil {
 				log.Logger.Err(err).Msg("token: save to file")
 				return
 			}
