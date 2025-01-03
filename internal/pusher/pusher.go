@@ -84,7 +84,7 @@ func (p *Pusher) Run() {
 			p.closePool()
 			return
 		case <-finish:
-			log.Logger.Info().Msgf("all URLs are set to processing. Let's stop the loop")
+			log.Logger.Info().Msgf("all URLs are set to processing. Let's wait for completion and stop the loop")
 			wg.Wait()
 			p.closePool()
 			return

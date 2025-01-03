@@ -23,13 +23,13 @@
             "args": ["token", "--user", "user", "--password", "123", "--regenerate"]
         },
         {
-            "name": "upload video: via file",
+            "name": "upload video: input file",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}",
-            "args": ["upload", "--wait", "--tasks", "10", "test.json"]
+            "args": ["upload", "--wait", "--tasks", "5", "--token", "token-expired.json", "video_list.json"]
         }
     ]
 }

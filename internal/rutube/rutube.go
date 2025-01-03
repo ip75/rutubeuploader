@@ -1,9 +1,13 @@
 package rutube
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
+
+	"github.com/ip75/rutubeuploader/internal/log"
 )
 
 const (
@@ -18,16 +22,31 @@ type TokenRequest struct {
 
 type errResponse struct {
 	NonFieldErrors []string `json:"non_field_errors"`
+	Details        string   `json:"detail"`
 }
 
 func ParseErr(errBody io.Reader) error {
 	desc := errResponse{}
-	d := json.NewDecoder(errBody)
-	d.Decode(&desc)
+
+	buf := bytes.Buffer{}
+	tee := io.TeeReader(errBody, &buf)
+
+	d := json.NewDecoder(tee)
+	if err := d.Decode(&desc); err != nil {
+		return fmt.Errorf("decode error response: %w", err)
+	}
+
+	log.Logger.Debug().Str("raw error respose", buf.String()).Msg("body with error")
+
 	res := []error{}
 	for _, e := range desc.NonFieldErrors {
 		res = append(res, errors.New(e))
 	}
+
+	if desc.Details != "" {
+		res = append(res, errors.New(desc.Details))
+	}
+
 	return errors.Join(res...)
 }
 

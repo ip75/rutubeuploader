@@ -23,3 +23,7 @@ go.work.sum
 
 # env file
 .env
+
+rutubeuploader
+token*.json
+video_list.json

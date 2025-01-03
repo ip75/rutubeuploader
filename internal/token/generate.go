@@ -44,6 +44,8 @@ func (t *Token) Generate(user, pass string, regenerate bool) error {
 		return fmt.Errorf("error when generate token: %s: %w", resp.Status, rutube.ParseErr(resp.Body))
 	}
 
-	json.NewDecoder(resp.Body).Decode(t)
+	if err := json.NewDecoder(resp.Body).Decode(t); err != nil {
+		return fmt.Errorf("decode token response: %w", err)
+	}
 	return nil
 }

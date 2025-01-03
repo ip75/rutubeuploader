@@ -79,7 +79,7 @@ func (v *Video) Upload(tok string, waitForCompletion bool) error {
 	}
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Add("Content-Length", fmt.Sprintf("%d", body.Len()))
-	r.Header.Add("Authorization", tok)
+	r.Header.Add("Authorization", fmt.Sprintf("Token %s", tok))
 
 	resp, err := http.DefaultClient.Do(r)
 	if err != nil {
@@ -90,12 +90,12 @@ func (v *Video) Upload(tok string, waitForCompletion bool) error {
 		return fmt.Errorf("upload status: %s: %w", resp.Status, ParseErr(resp.Body))
 	}
 
-	response := uploadResponse{}
-	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
+	upResp := uploadResponse{}
+	if err := json.NewDecoder(resp.Body).Decode(&upResp); err != nil {
 		log.Logger.Error().Err(err).Msg("decode response")
 	}
 
-	log.Logger.Info().Str("video ID", response.VideoID).Msg("video uploaded successfully")
+	log.Logger.Info().Str("video ID", upResp.VideoID).Msg("video uploaded successfully")
 
 	return nil
 }
