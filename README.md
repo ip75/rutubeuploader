@@ -6,7 +6,9 @@ upload video to rutube from command line
 ```shell
 $ rutubeuploader token --user vova@mail.com --password Password
 ```
-You will get `token.json` in current directory which will be used for authentication
+You will get `token.json` in current directory which will be used for authentication in other operations. 
+Token has to expire in half an hour but checking for expiration doesn't work on rutube service yet at upload action. 
+So issued token is never expies until rutube fix error on the server side.
 
 #### Upload video to Rutube
 ```shell

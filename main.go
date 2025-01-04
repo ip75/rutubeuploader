@@ -1,3 +1,5 @@
+/* @bvgdas (c) */
+
 package main
 
 import "github.com/ip75/rutubeuploader/cmd"

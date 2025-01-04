@@ -29,7 +29,7 @@
             "mode": "auto",
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}",
-            "args": ["upload", "--wait", "--tasks", "5", "--token", "token-expired.json", "video_list.json"]
+            "args": ["upload", "--wait", "--tasks", "3", "--token", "token-expired.json", "video_list.json"]
         }
     ]
 }
