@@ -1,6 +1,12 @@
 # rutubeuploader
 upload video to rutube from command line
 
+### Build:
+```shell
+$ make build
+```
+you will get `rutubeuploader` binary file for execution
+
 ### Usage:
 #### Generate token
 ```shell
