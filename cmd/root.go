@@ -16,8 +16,26 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI to upload video to rutube.ru",
 	Long: `This is a command line application to upload video content to video hoster rutube.ru.
 	For example:
-		rutubeuploader token --user=compas --password=123
-		rutubeuploader upload https://example.com/video.mp4
+		$ rutubeuploader token --user=compas --password=123  # to generate token.json
+		$ rutubeuploader upload video_list.json              # to start upload video to rutube from file
+	or
+		$ cat video_list.json | rutubeuploader upload        # --||-- from stdin
+
+# video_list.json input JSON format
+[
+    {
+        "url": "https://user:password@videoserver.su/video/alien.mp4",  // url to video where Rutube will get from. Set necessary credentials to url to download video successfully. Available schema: https/http, ftp
+        "quality_report": true,       // if true, notification will be called every time when video will be converted to every step of quality, if false notification will be called once when all convertions will be completed
+        "author": 123,                // Identity of author. This author has to have access to upload video to specified channel
+        "title": "Alien",             // video title, max 100 runes
+        "description": "Alien movie", // description of video, max 5000 runes
+        "hidden": false,              // true: private, false: public video 
+        "category_id": 13,            // Identity number of category for video. Default 13
+        "converter_params": "",       // additional video convertion parameters. Example xml-tagging: converter_params=%7B%22editor_xml%22%3A%22ftp%3A%5C%2F%5C%2Frutube%3pass%4010.122.50.222%5C%2FPR291117-A.xml%22%7D
+        "protected": false            // true: video will be queued to DRM checking
+    },
+    /// etc.
+]
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
